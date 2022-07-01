@@ -16,12 +16,13 @@
                     <form id="form_matkul">
                         <div class="container row">
                             <div class="mb-3 mt-3">
+                                <div id="wadah_alert"></div>
                                 <label class="form-label" for="nama_matkul">Nama Matkul</label>
-                                <input class="form-control" type="text" name="nama_matkul" id="nama_matkul">
+                                <input class="form-control" type="text" id="nama_matkul" required>
                             </div>
                             <div class="mb-3 col-md-4">
                                 <label class="form-label" for="hari">Hari</label>
-                                <select class="form-select" id="hari" name="hari" aria-label="Default select example">
+                                <select class="form-select" id="hari" aria-label="Default select example" required>
                                     <option selected>Pilih hari</option>
                                     <option value="senin">Senin</option>
                                     <option value="selasa">Selasa</option>
@@ -33,15 +34,15 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="jam_mulai">Jam Mulai</label>
-                                <input type="time" name="jam_mulai" id="jam_mulai" class="form-control">
+                                <input type="time" id="jam_mulai" class="form-control" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="jam_akhir">Jam Akhir</label>
-                                <input type="time" name="jam_akhir" id="jam_akhir" class="form-control">
+                                <input type="time" id="jam_akhir" class="form-control" required>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label class="form-label" for="sks">SKS</label>
-                                <input class="form-control" type="text" name="sks" id="jmlh_sks">
+                                <input class="form-control" type="text" id="jmlh_sks" required>
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary" id="btn_submit">Submit</button>
@@ -137,7 +138,11 @@
                 });
 
                 if (tabrakan) {
-                    alert(tabrakan);
+                    let ini_alert = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                        <div>${tabrakan}</div>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>`
+                    $('#wadah_alert').html(ini_alert);
                 } else {
                     data_base.push(data);
                 }
