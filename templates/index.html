@@ -49,9 +49,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="container rounded shadow  bg-white mb-3">
-                    <div class="mt-2" id="hitungan"></div>
-                </div>
+                    <div class="mb-3" id="hitungan"></div>
             </div>
             <!-- AKHIR FORM -->
             
@@ -160,8 +158,11 @@
                     total_sks += parseInt(value[4]);
                 });
 
-                let hitung =   `<p>Jumlah matkul yang diambil: ${total_matkul}</p>
-                                <p>Total SKS : ${total_sks}</p>`;
+                let hitung =   `<ul class="list-group">
+                                    <li class="list-group-item">Jumlah Mata kuliah: ${total_matkul}</li>
+                                    <li class="list-group-item">Total SKS ${total_sks}</li>
+                                </ul>`;
+
                 $('#hitungan').html(hitung);
             }
 
