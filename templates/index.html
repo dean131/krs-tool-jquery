@@ -12,7 +12,7 @@
         <div class="row">
             <!-- FORM -->
             <div class="col-md-4 mb-3">
-                <div class="container rounded shadow  bg-white">
+                <div class="container rounded shadow  bg-white mb-3">
                     <form id="form_matkul">
                         <div class="container row">
                             <div class="mb-3 mt-3">
@@ -39,11 +39,18 @@
                                 <label class="form-label" for="jam_akhir">Jam Akhir</label>
                                 <input type="time" name="jam_akhir" id="jam_akhir" class="form-control">
                             </div>
+                            <div class="col-md-2 mb-3">
+                                <label class="form-label" for="sks">SKS</label>
+                                <input class="form-control" type="text" name="sks" id="jmlh_sks">
+                            </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary" id="btn_submit">Submit</button>
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="container rounded shadow  bg-white mb-3">
+                    <div class="mt-2" id="hitungan"></div>
                 </div>
             </div>
             <!-- AKHIR FORM -->
@@ -52,7 +59,7 @@
             <div class="col-md-8 mb-3">
                 <div class="container rounded-3 shadow bg-white">
                     <div class="table-responsive" style="height: 550px;">
-                        <div class=" mt-3" id="wadah"></div>
+                        <div class="mt-3" id="table_matkul"></div>
                     </div>
                 </div>
             </div> 
@@ -73,34 +80,38 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Matkul</th>
+                                        <th>sks</th>
                                         <th>Hari</th>
                                         <th>Jam</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>`;
+
+
                 if (data_base) {
                     $.each(data_base, function(index, value) {
-                        table +=            `<tr>
-                                                <td>${index+1}</td>
-                                                <td>${value[0]}</td>
-                                                <td>${value[1]}</td>
-                                                <td>${value[2]}-${value[3]}</td>
-                                                <td>
-                                                    <a onclick="$.hapus(${index})" class="btn btn-danger">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
-                                                        </svg>
-                                                    </a>
-                                                </td>
-                                            </tr>`;
+                        table +=    `<tr>
+                                        <td>${index+1}</td>
+                                        <td>${value[0]}</td>
+                                        <td>${value[4]}</td>
+                                        <td>${value[1]}</td>
+                                        <td>${value[2]}-${value[3]}</td>
+                                        <td>
+                                            <a onclick="$.hapus(${index})" class="btn btn-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>`;
                     });
-                } 
-                if (!data_base) {
-                    table += `<tr><td>1</td><td>1</td><td1></td><td>1</td><td>1</td></tr>`;
                 }
+                
                 table += `</tbody></table>`;
-                $('#wadah').html(table);
+                $('#table_matkul').html(table);
+
+                $.hitungan();
             }
 
             $('#form_matkul').submit(function(event) {
@@ -109,7 +120,8 @@
                 let hari = $(this).find('#hari').val();
                 let jam_mulai = $(this).find('#jam_mulai').val();
                 let jam_akhir = $(this).find('#jam_akhir').val();
-                let data = [nama_matkul, hari, jam_mulai, jam_akhir];
+                let jmlh_sks = $(this).find('#jmlh_sks').val();
+                let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
 
                 let tabrakan = '';
                 $.each(data_base, function(index, value) {
@@ -139,6 +151,21 @@
                 data_base.splice(index, 1);
                 $.tampil();
             }
+
+            $.hitungan = function() {
+                let total_matkul = data_base.length;
+                let total_sks = 0;
+
+                $.each(data_base, function(index, value) {
+                    total_sks += parseInt(value[4]);
+                });
+
+                let hitung =   `<p>Jumlah matkul yang diambil: ${total_matkul}</p>
+                                <p>Total SKS : ${total_sks}</p>`;
+                $('#hitungan').html(hitung);
+            }
+
+            $.tampil();
 
         });
     </script>
