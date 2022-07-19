@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     $.tampil = function() {
         let table = `<table class="table table-striped" id="myTable">
-                        <thead class="sticky-top bg-secondary text-light">
+                        <thead class="sticky-top table-success">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Matkul</th>
