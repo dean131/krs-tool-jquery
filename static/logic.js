@@ -4,8 +4,8 @@ $(document).ready(function() {
     let data_base = [];
 
     $.tampil = function() {
-        let table = `<table class="table table-striped" id="myTable">
-                        <thead class="sticky-top table-success">
+        let table = `<table class="table table-hover" id="myTable">
+                        <thead class="sticky-top text-light bg-success bg-opacity-50">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Matkul</th>
