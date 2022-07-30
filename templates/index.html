@@ -17,7 +17,6 @@
                         <div class="container-fluid row">
                             <h3 class="form-title text-center mt-4">KRS Scheduler</h3>
                             <div class="mb-3 mt-3">
-                                <div id="wadah_alert"></div>
                                 <label class="form-label" for="nama_matkul">Nama Matkul</label>
                                 <input class="form-control" type="text" id="nama_matkul" required>
                             </div>
@@ -62,7 +61,7 @@
             </div> 
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -111,6 +110,23 @@
                 </div>
             </div>
         </div>
+        <!-- Modal Warning -->
+        <div class="modal fade" id="modal-warning" tabindex="-1" aria-labelledby="modal-warningLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div id="modal-warning-title"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="modal-warning-message"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Oke bor!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- FOOTER -->
         <footer class="py-2 my-2 border-top d-flex align-items-center justify-content-center fixed-botom">
             <div class="row d-flex align-items-center justify-content-center">
@@ -118,7 +134,7 @@
                     <!-- <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
                         <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
                     </a> -->
-                    <span class="mb-2 mb-md-0 text-muted">© 2022 Ilham dean</span>
+                    <span class="mb-2 mb-md-0 text-muted">© 2022 IlhamDean</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-center">
                     <a class="text-muted mx-1" href="https://web.facebook.com/profile.php?id=100008528718606">

@@ -26,7 +26,7 @@ $(document).ready(function() {
                                 <td>${value[1]}</td>
                                 <td>${value[2]}-${value[3]}</td>
                                 <td>
-                                    <a onclick="$.edit(${index})" href="#exampleModal" data-bs-toggle="modal" class="btn btn-warning">
+                                    <a onclick="$.edit(${index})" href="#modalEdit" data-bs-toggle="modal" class="btn btn-warning">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -71,13 +71,18 @@ $(document).ready(function() {
                 }
             }
         });
-        
+
+        if (isNaN(jmlh_sks)) {
+            alert('pake angka gan!');
+            return;
+        }
+
         if (tabrakan) {
-            let ini_alert = `<div class="alert alert-danger alert-dismissible" role="alert">
-                                <div>Jadawal bertabrakan dengan ${data_base[tabrakan][0]}</div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>`
-            $('#wadah_alert').html(ini_alert);
+            let tilte = `<h5>Tabrakan gan!</h5>`
+            let message = `<p>Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!</p>`;
+            $('#modal-warning-title').html(tilte);
+            $('#modal-warning-message').html(message);
+            $('#modal-warning').modal('show');
         } else {
             data_base.push(data);
             $.tampil();
@@ -143,7 +148,11 @@ $(document).ready(function() {
         });
 
         if (tabrakan) {
-            alert(tabrakan);
+            let tilte = `<h5>Tabrakan gan!</h5>`
+            let message = `<p>Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!</p>`;
+            $('#modal-warning-title').html(tilte);
+            $('#modal-warning-message').html(message);
+            $('#modal-warning').modal('show');
         } else {
             data_base[modal_index] = data;
             $.tampil();
@@ -152,7 +161,7 @@ $(document).ready(function() {
 
     $.resetForm = function() {
         $('#nama_matkul').val('');
-        $('#hari').val('Senin');
+        $('#hari').val(1);
         $('#jam_mulai').val('');
         $('#jam_akhir').val('');
         $('#jmlh_sks').val('');
