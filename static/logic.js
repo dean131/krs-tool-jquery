@@ -73,16 +73,16 @@ $(document).ready(function() {
         });
 
         if (isNaN(jmlh_sks)) {
-            alert('pake angka gan!');
+            let title = `Bor!`;
+            let message = `Kalo SKS harus pake angka bor!`
+            $.modalWarning(title, message);
             return;
         }
 
         if (tabrakan) {
-            let tilte = `<h5>Tabrakan gan!</h5>`
-            let message = `<p>Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!</p>`;
-            $('#modal-warning-title').html(tilte);
-            $('#modal-warning-message').html(message);
-            $('#modal-warning').modal('show');
+            let title = `Tabrakan gan!`;
+            let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
+            $.modalWarning(title, message);
         } else {
             data_base.push(data);
             $.tampil();
@@ -148,11 +148,9 @@ $(document).ready(function() {
         });
 
         if (tabrakan) {
-            let tilte = `<h5>Tabrakan gan!</h5>`
-            let message = `<p>Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!</p>`;
-            $('#modal-warning-title').html(tilte);
-            $('#modal-warning-message').html(message);
-            $('#modal-warning').modal('show');
+            let title = `Tabrakan gan!`;
+            let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
+            $.modalWarning(title, message);
         } else {
             data_base[modal_index] = data;
             $.tampil();
@@ -165,6 +163,14 @@ $(document).ready(function() {
         $('#jam_mulai').val('');
         $('#jam_akhir').val('');
         $('#jmlh_sks').val('');
+    }
+
+    $.modalWarning = function(title, message) {
+        let this_title = `<h5>${title}</h5>`;
+        let this_message = `<p>${message}</p>`;
+        $('#modal-warning-title').html(this_title);
+        $('#modal-warning-message').html(this_message);
+        $('#modal-warning').modal('show');
     }
 
     $.tampil();
