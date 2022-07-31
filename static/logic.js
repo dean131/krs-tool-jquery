@@ -159,7 +159,7 @@ $(document).ready(function() {
 
     $.resetForm = function() {
         $('#nama_matkul').val('');
-        $('#hari').val(1);
+        $('#hari').prop('selectedIndex',0);
         $('#jam_mulai').val('');
         $('#jam_akhir').val('');
         $('#jmlh_sks').val('');
