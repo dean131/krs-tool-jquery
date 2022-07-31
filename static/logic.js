@@ -80,7 +80,7 @@ $(document).ready(function() {
         }
 
         if (tabrakan) {
-            let title = `Tabrakan gan!`;
+            let title = `Jadwalnya tabrakan bor!`;
             let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
             $.modalWarning(title, message);
         } else {
@@ -148,7 +148,7 @@ $(document).ready(function() {
         });
 
         if (tabrakan) {
-            let title = `Tabrakan gan!`;
+            let title = `Jadwalnya tabrakan bor!`;
             let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
             $.modalWarning(title, message);
         } else {
