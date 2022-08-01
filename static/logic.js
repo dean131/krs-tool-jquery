@@ -26,13 +26,13 @@ $(document).ready(function() {
                                 <td>${value[1]}</td>
                                 <td>${value[2]}-${value[3]}</td>
                                 <td>
-                                    <a onclick="$.edit(${index})" href="#modalEdit" data-bs-toggle="modal" class="btn btn-warning">
+                                    <a onclick="$.edit(${index})" href="#modalEdit" data-bs-toggle="modal" class="btn btn-outline-warning opacity-75">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg>
                                     </a>
-                                    <a onclick="$.hapus(${index})" class="btn btn-danger">
+                                    <a onclick="$.hapus(${index})" class="btn btn-outline-danger opacity-75">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                         </svg>
@@ -171,6 +171,209 @@ $(document).ready(function() {
         $('#modal-warning-title').html(this_title);
         $('#modal-warning-message').html(this_message);
         $('#modal-warning').modal('show');
+    }
+
+    $.sortingDataBase = function() {
+        function compare( a, b ) {
+            if ( a[2] < b[2] ){
+                return -1;
+            }
+            if ( a[2] > b[2] ){
+                return 1;
+            }
+            return 0;
+        }
+        
+        let list_senin = []
+        let list_selasa = []
+        let list_rabu = []
+        let list_kamis = []
+        let list_jumat = []
+        let list_sabtu = []
+        
+        for (const i of data_base) {
+            switch (i[1]) {
+                case 'Senin':
+                    list_senin.push(i);
+                    if (list_senin) {
+                        list_senin.sort(compare);
+                    }
+                    continue;
+                case 'Selasa':
+                    list_selasa.push(i);
+                    if (list_selasa) {
+                        list_selasa.sort(compare);
+                    }
+                    continue;
+                case 'Rabu':
+                    list_rabu.push(i);
+                    if (list_rabu) {
+                        list_rabu.sort(compare);
+                    }
+                    continue;
+                case 'Kamis':
+                    list_kamis.push(i);
+                    if (list_kamis) {
+                        list_kamis.sort(compare);
+                    }
+                    continue;
+                case 'Jum\'at':
+                    list_jumat.push(i);
+                    if (list_jumat) {
+                        list_jumat.sort(compare);
+                    }
+                    continue;
+                case 'Sabtu':
+                    list_sabtu.push(i);
+                    if (list_sabtu) {
+                        list_sabtu.sort(compare);
+                    }
+                    continue;
+            }
+        }
+
+        let card_senin, card_selasa, card_rabu, card_kamis, card_jumat, card_sabtu;
+        
+        if (list_senin) {
+            card_senin = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Senin</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_senin) {
+                card_senin += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_senin +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+        
+        if (list_selasa) {
+            card_selasa = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Selasa</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_selasa) {
+                card_selasa += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_selasa +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+        
+        if (list_rabu) {
+            card_rabu = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Rabu</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_rabu) {
+                card_rabu += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_rabu +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+        
+        if (list_kamis) {
+            card_kamis = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Kamis</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_kamis) {
+                card_kamis += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_kamis +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+        
+        if (list_jumat) {
+            card_jumat = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Jum'at</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_jumat) {
+                card_jumat += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_jumat +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+        
+        if (list_sabtu) {
+            card_sabtu = `      <div class="card col-4 mx-2 mb-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title text-center">Sabtu</h3>
+                                    </div>
+                                    <div class="card-body-fluid">
+                                        <table class="table table-bordered">
+                                            <tbody>`
+            for (const i of list_sabtu) {
+                card_sabtu += ` <tr>
+                                    <td>${i[0]}</td>
+                                    <td>${i[4]}</td>
+                                    <td>${i[2]}-${i[3]}</td>
+                                </tr>`
+            }
+            card_sabtu +=               `   </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
+        }
+
+        return card_senin + card_selasa + card_rabu + card_kamis + card_jumat + card_sabtu;
+    }
+
+    $.myPrint = function() {
+        let card_all = $.sortingDataBase();
+        let pagePrint = `   <div class="container-fluid">
+                                <div class="row justify-content-center">`
+        pagePrint += card_all;
+        pagePrint +=        `   </div>
+                            </div>`
+        let pageOri = document.body.innerHTML;
+        document.body.innerHTML = pagePrint;
+        window.print();
+        document.body.innerHTML = pageOri;
     }
 
     $.tampil();
