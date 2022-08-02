@@ -2,3 +2,45 @@ body {
     background-image: url('../img/bgbd.jpg');
     background-size: auto;
 }
+
+.card.col-4 {
+    position: relative;
+    float: left;
+}
+
+
+.btn.btn-outline-primary {
+    --bs-btn-padding-y: 0px;
+}
+
+.day-box {
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 5px;
+    float: left;
+    margin: 10px;
+}
+
+.day-box-header {
+    border-bottom: 1px solid black;
+    height: 30px;
+}
+
+.day-box-title {
+    text-align: center;
+}
+
+table.day-box-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.day-box-table td, th {
+    border-bottom: 1px solid;
+    padding: 8px;
+    text-align: left;
+}
+
+.day-box-title, table.day-box-table {
+    font-family: Tahoma, Verdana, sans-serif;
+}

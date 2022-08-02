@@ -243,13 +243,13 @@ $(document).ready(function() {
         let card_senin, card_selasa, card_rabu, card_kamis, card_jumat, card_sabtu;
         
         if (list_senin) {
-            card_senin = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Senin</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_senin = `  <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Senin</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_senin) {
                 card_senin += ` <tr>
                                     <td>${i[0]}</td>
@@ -264,13 +264,13 @@ $(document).ready(function() {
         }
         
         if (list_selasa) {
-            card_selasa = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Selasa</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_selasa = ` <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Selasa</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_selasa) {
                 card_selasa += ` <tr>
                                     <td>${i[0]}</td>
@@ -285,13 +285,13 @@ $(document).ready(function() {
         }
         
         if (list_rabu) {
-            card_rabu = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Rabu</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_rabu = `   <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Rabu</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_rabu) {
                 card_rabu += ` <tr>
                                     <td>${i[0]}</td>
@@ -306,13 +306,13 @@ $(document).ready(function() {
         }
         
         if (list_kamis) {
-            card_kamis = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Kamis</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_kamis = `  <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Kamis</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_kamis) {
                 card_kamis += ` <tr>
                                     <td>${i[0]}</td>
@@ -327,13 +327,13 @@ $(document).ready(function() {
         }
         
         if (list_jumat) {
-            card_jumat = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Jum'at</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_jumat = `  <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Jum'at</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_jumat) {
                 card_jumat += ` <tr>
                                     <td>${i[0]}</td>
@@ -348,13 +348,13 @@ $(document).ready(function() {
         }
         
         if (list_sabtu) {
-            card_sabtu = `      <div class="card col-5 mx-2 mb-3">
-                                    <div class="card-header">
-                                        <h3 class="card-title text-center">Sabtu</h3>
-                                    </div>
-                                    <div class="card-body-fluid">
-                                        <table class="table table-bordered">
-                                            <tbody>`
+            card_sabtu = `  <div class="day-box">
+                                <div class="day-box-header">
+                                    <h2 class="day-box-title">Sabtu</h2>
+                                </div>
+                                <div class="day-box-body">
+                                    <table class="day-box-table">
+                                        <tbody>`
             for (const i of list_sabtu) {
                 card_sabtu += ` <tr>
                                     <td>${i[0]}</td>
@@ -373,15 +373,17 @@ $(document).ready(function() {
 
     $.myPrint = function() {
         let card_all = $.sortingDataBase();
-        let pagePrint = `   <div class="container-fluid">
-                                <div class="row justify-content-center">`
+        let pagePrint = `   <div class="container" id="printBor">`
         pagePrint += card_all;
-        pagePrint +=        `   </div>
-                            </div>`
-        let pageOri = document.body.innerHTML;
-        document.body.innerHTML = pagePrint;
-        window.print();
-        document.body.innerHTML = pageOri;
+        pagePrint +=        `</div>`
+                            
+        $('#myPrint1').html(pagePrint);
+        printJS({ 
+            printable: 'printBor', 
+            type: 'html', 
+            targetStyles: ['*']
+            // header: 'PrintJS - Form Element Selection' 
+        });
     }
 
     $.tampil();
