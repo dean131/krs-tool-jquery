@@ -51,6 +51,9 @@ $(document).ready(function() {
             "paging": false,
             "searching": false,
             "info": false,
+            "language": {
+                "emptyTable": "Belom ada data yang di gaskeun bor!"
+            }
         });
     }
 
