@@ -4,7 +4,7 @@ $(document).ready(function() {
     let data_base = [];
 
     $.tampil = function() {
-        let table = `<table class="table table-hover" id="myTable">
+        let table = `<table class="table table-sm table-hover" id="myTable">
                         <thead class="sticky-top text-light bg-success bg-opacity-50">
                             <tr>
                                 <th>No</th>
@@ -46,15 +46,20 @@ $(document).ready(function() {
         $('#table_matkul').html(table);
 
         $.hitungan();
+
+        $('#myTable').DataTable({
+            "paging": false,
+            "searching": false,
+            "info": false,
+        });
     }
 
-    $('#form_matkul').submit(function(event) {
-        event.preventDefault();
-        let nama_matkul = $(this).find('#nama_matkul').val();
-        let hari = $(this).find('#hari').val();
-        let jam_mulai = $(this).find('#jam_mulai').val();
-        let jam_akhir = $(this).find('#jam_akhir').val();
-        let jmlh_sks = $(this).find('#jmlh_sks').val();
+    $('#btn_submit').click(function() {
+        let nama_matkul = $('#nama_matkul').val();
+        let hari = $('#hari').val();
+        let jam_mulai = $('#jam_mulai').val();
+        let jam_akhir = $('#jam_akhir').val();
+        let jmlh_sks = $('#jmlh_sks').val();
         let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
 
         let tabrakan;
@@ -192,38 +197,38 @@ $(document).ready(function() {
         let list_sabtu = []
         
         for (const i of data_base) {
-            switch (i[1]) {
-                case 'Senin':
+            switch (i[1].toLowerCase()) {
+                case 'senin':
                     list_senin.push(i);
                     if (list_senin) {
                         list_senin.sort(compare);
                     }
                     continue;
-                case 'Selasa':
+                case 'selasa':
                     list_selasa.push(i);
                     if (list_selasa) {
                         list_selasa.sort(compare);
                     }
                     continue;
-                case 'Rabu':
+                case 'rabu':
                     list_rabu.push(i);
                     if (list_rabu) {
                         list_rabu.sort(compare);
                     }
                     continue;
-                case 'Kamis':
+                case 'kamis':
                     list_kamis.push(i);
                     if (list_kamis) {
                         list_kamis.sort(compare);
                     }
                     continue;
-                case 'Jum\'at':
+                case 'jum\'at':
                     list_jumat.push(i);
                     if (list_jumat) {
                         list_jumat.sort(compare);
                     }
                     continue;
-                case 'Sabtu':
+                case 'sabtu':
                     list_sabtu.push(i);
                     if (list_sabtu) {
                         list_sabtu.sort(compare);
@@ -235,7 +240,7 @@ $(document).ready(function() {
         let card_senin, card_selasa, card_rabu, card_kamis, card_jumat, card_sabtu;
         
         if (list_senin) {
-            card_senin = `      <div class="card col-4 mx-2 mb-3">
+            card_senin = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Senin</h3>
                                     </div>
@@ -256,7 +261,7 @@ $(document).ready(function() {
         }
         
         if (list_selasa) {
-            card_selasa = `      <div class="card col-4 mx-2 mb-3">
+            card_selasa = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Selasa</h3>
                                     </div>
@@ -277,7 +282,7 @@ $(document).ready(function() {
         }
         
         if (list_rabu) {
-            card_rabu = `      <div class="card col-4 mx-2 mb-3">
+            card_rabu = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Rabu</h3>
                                     </div>
@@ -298,7 +303,7 @@ $(document).ready(function() {
         }
         
         if (list_kamis) {
-            card_kamis = `      <div class="card col-4 mx-2 mb-3">
+            card_kamis = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Kamis</h3>
                                     </div>
@@ -319,7 +324,7 @@ $(document).ready(function() {
         }
         
         if (list_jumat) {
-            card_jumat = `      <div class="card col-4 mx-2 mb-3">
+            card_jumat = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Jum'at</h3>
                                     </div>
@@ -340,7 +345,7 @@ $(document).ready(function() {
         }
         
         if (list_sabtu) {
-            card_sabtu = `      <div class="card col-4 mx-2 mb-3">
+            card_sabtu = `      <div class="card col-5 mx-2 mb-3">
                                     <div class="card-header">
                                         <h3 class="card-title text-center">Sabtu</h3>
                                     </div>
