@@ -3,12 +3,6 @@ body {
     background-size: auto;
 }
 
-.card.col-4 {
-    position: relative;
-    float: left;
-}
-
-
 .btn.btn-outline-primary {
     --bs-btn-padding-y: 0px;
 }
@@ -22,12 +16,12 @@ body {
 }
 
 .day-box-header {
-    border-bottom: 1px solid black;
     height: 30px;
 }
 
 .day-box-title {
     text-align: center;
+    font-weight: bold;
 }
 
 table.day-box-table {
@@ -36,7 +30,7 @@ table.day-box-table {
 }
 
 table.day-box-table td, th {
-    border-bottom: 1px solid;
+    border-top: 1px solid;
     padding: 8px;
     text-align: left;
 }

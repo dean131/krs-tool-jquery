@@ -239,147 +239,175 @@ $(document).ready(function() {
                     continue;
             }
         }
-
-        let card_senin, card_selasa, card_rabu, card_kamis, card_jumat, card_sabtu;
         
-        if (list_senin) {
-            card_senin = `  <div class="day-box">
+        let card_senin = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Senin</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_senin) {
-                card_senin += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_senin +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_senin) {
+            card_senin += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_senin.length == 0) {
+            card_senin += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_senin +=`          </tbody>
+                            </table>
+                        </div>
+                    </div>`
         
-        if (list_selasa) {
-            card_selasa = ` <div class="day-box">
+        let card_selasa = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Selasa</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_selasa) {
-                card_selasa += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_selasa +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_selasa) {
+            card_selasa += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_selasa.length == 0) {
+            card_selasa += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_selasa +=`         </tbody>
+                            </table>
+                        </div>
+                    </div>`
         
-        if (list_rabu) {
-            card_rabu = `   <div class="day-box">
+        let card_rabu = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Rabu</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_rabu) {
-                card_rabu += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_rabu +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_rabu) {
+            card_rabu += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_rabu.length == 0) {
+            card_rabu += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_rabu +=`           </tbody>
+                            </table>
+                        </div>
+                    </div>`
         
-        if (list_kamis) {
-            card_kamis = `  <div class="day-box">
+        let card_kamis = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Kamis</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_kamis) {
-                card_kamis += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_kamis +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_kamis) {
+            card_kamis += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_kamis.length == 0) {
+            card_kamis += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_kamis +=`          </tbody>
+                            </table>
+                        </div>
+                    </div>`
         
-        if (list_jumat) {
-            card_jumat = `  <div class="day-box">
+        let card_jumat = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Jum'at</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_jumat) {
-                card_jumat += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_jumat +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_jumat) {
+            card_jumat += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_jumat.length == 0) {
+            card_jumat += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_jumat +=`          </tbody>
+                            </table>
+                        </div>
+                    </div>`
         
-        if (list_sabtu) {
-            card_sabtu = `  <div class="day-box">
+        let card_sabtu = `  <div class="day-box">
                                 <div class="day-box-header">
                                     <h2 class="day-box-title">Sabtu</h2>
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
                                         <tbody>`
-            for (const i of list_sabtu) {
-                card_sabtu += ` <tr>
-                                    <td>${i[0]}</td>
-                                    <td>${i[4]}</td>
-                                    <td>${i[2]}-${i[3]}</td>
-                                </tr>`
-            }
-            card_sabtu +=               `   </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        for (const i of list_sabtu) {
+            card_sabtu += ` <tr>
+                                <td>${i[0]}</td>
+                                <td>${i[4]}</td>
+                                <td>${i[2]}-${i[3]}</td>
+                            </tr>`
+            } 
+
+        if (list_sabtu.length == 0) {
+            card_sabtu += ` <tr>
+                                <td>Tidak ada jadwal</td>
+                            </tr>`
         }
+
+        card_sabtu +=`          </tbody>
+                            </table>
+                        </div>
+                    </div>`
 
         return card_senin + card_selasa + card_rabu + card_kamis + card_jumat + card_sabtu;
     }
 
     $.myPrint = function() {
         let card_all = $.sortingDataBase();
-        let pagePrint = `   <div class="container" id="printBor">`
+        let pagePrint = `   <div class="container" id="pagePrint">`
         pagePrint += card_all;
         pagePrint +=        `</div>`
                             
-        $('#myPrint1').html(pagePrint);
+        $('#divPrint').html(pagePrint);
         printJS({ 
-            printable: 'printBor', 
+            printable: 'pagePrint', 
             type: 'html', 
             targetStyles: ['*']
             // header: 'PrintJS - Form Element Selection' 
