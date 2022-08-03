@@ -8,19 +8,14 @@ body {
 }
 
 .day-box {
-    /* width: 300px; */
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 5px;
-    margin: 10px;
 }
 
 .day-box-header {
-    height: 30px;
-}
-
-.day-box-title {
     text-align: center;
     font-weight: bold;
+    padding: 10px;
 }
 
 table.day-box-table {
@@ -41,4 +36,5 @@ table.day-box-table td, th {
 #pagePrint {
     display: grid;
     grid: auto / auto auto;
+    gap: 10px;
 }

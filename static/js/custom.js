@@ -242,7 +242,7 @@ $(document).ready(function() {
         
         let card_senin = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Senin</h2>
+                                    Senin
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
@@ -268,7 +268,7 @@ $(document).ready(function() {
         
         let card_selasa = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Selasa</h2>
+                                    Selasa
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
@@ -294,7 +294,7 @@ $(document).ready(function() {
         
         let card_rabu = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Rabu</h2>
+                                    Rabu
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
@@ -320,7 +320,7 @@ $(document).ready(function() {
         
         let card_kamis = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Kamis</h2>
+                                    Kamis
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
@@ -346,7 +346,7 @@ $(document).ready(function() {
         
         let card_jumat = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Jum'at</h2>
+                                    Jum'at
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
@@ -372,7 +372,7 @@ $(document).ready(function() {
         
         let card_sabtu = `  <div class="day-box">
                                 <div class="day-box-header">
-                                    <h2 class="day-box-title">Sabtu</h2>
+                                    Sabtu
                                 </div>
                                 <div class="day-box-body">
                                     <table class="day-box-table">
