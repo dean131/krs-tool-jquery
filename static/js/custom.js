@@ -88,8 +88,8 @@ $(document).ready(function() {
         }
 
         if (tabrakan) {
-            let title = `Jadwalnya tabrakan bor!`;
-            let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
+            let title = `Bor!`;
+            let message = `Jadwalnya trbrakan sama ${data_base[tabrakan][0]} bor!`
             $.modalWarning(title, message);
         } else {
             data_base.push(data);
@@ -156,7 +156,7 @@ $(document).ready(function() {
         });
 
         if (tabrakan) {
-            let title = `Jadwalnya tabrakan bor!`;
+            let title = `Bor :v!`;
             let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
             $.modalWarning(title, message);
         } else {
