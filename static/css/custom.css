@@ -8,7 +8,7 @@ body {
 }
 
 .day-box {
-    width: 300px;
+    /* width: 300px; */
     border: 1px solid black;
     border-radius: 5px;
     float: left;
@@ -37,4 +37,9 @@ table.day-box-table td, th {
 
 .day-box-title, table.day-box-table {
     font-family: Tahoma, Verdana, sans-serif;
+}
+
+#pagePrint {
+    display: grid;
+    grid: auto / auto auto;
 }
