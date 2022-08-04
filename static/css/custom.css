@@ -10,6 +10,7 @@ body {
 .day-box {
     border: 2px solid black;
     border-radius: 5px;
+    float: left;
 }
 
 .day-box-header {
@@ -21,6 +22,7 @@ body {
 table.day-box-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 table.day-box-table td, th {
@@ -33,8 +35,18 @@ table.day-box-table td, th {
     font-family: Tahoma, Verdana, sans-serif;
 }
 
+.nama-matkul {
+    word-wrap: break-word;
+    width: 60%;
+}
+
+.sks {
+    width: 10%;
+}
+
 #pagePrint {
     display: grid;
-    grid: auto / auto auto;
+    grid: auto / 50% 50%;
     gap: 10px;
 }
+

@@ -64,6 +64,34 @@ $(document).ready(function() {
         let jam_akhir = $('#jam_akhir').val();
         let jmlh_sks = $('#jmlh_sks').val();
         let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
+        
+        if (!nama_matkul) {
+            let title = `Bor!`;
+            let message = `Isi dulu field nama MATKUL nya bor!`
+            $.modalWarning(title, message);
+            return;
+        }
+        
+        if (!jam_mulai || !jam_akhir) {
+            let title = `Bor!`;
+            let message = `Isi dulu jam nya bor!`
+            $.modalWarning(title, message);
+            return;
+        }
+        
+        if (!jmlh_sks) {
+            let title = `Bor!`;
+            let message = `Isi dulu field SKS nya bor!`
+            $.modalWarning(title, message);
+            return;
+        }
+
+        if (isNaN(jmlh_sks)) {
+            let title = `Bor!`;
+            let message = `Kalo SKS harus pake angka bor!`
+            $.modalWarning(title, message);
+            return;
+        }
 
         let tabrakan;
         $.each(data_base, function(index, value) {
@@ -79,13 +107,6 @@ $(document).ready(function() {
                 }
             }
         });
-
-        if (isNaN(jmlh_sks)) {
-            let title = `Bor!`;
-            let message = `Kalo SKS harus pake angka bor!`
-            $.modalWarning(title, message);
-            return;
-        }
 
         if (tabrakan) {
             let title = `Bor!`;
@@ -249,8 +270,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_senin) {
             card_senin += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
@@ -275,8 +296,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_selasa) {
             card_selasa += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
@@ -301,8 +322,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_rabu) {
             card_rabu += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
@@ -327,8 +348,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_kamis) {
             card_kamis += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
@@ -353,8 +374,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_jumat) {
             card_jumat += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
@@ -379,8 +400,8 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_sabtu) {
             card_sabtu += ` <tr>
-                                <td>${i[0]}</td>
-                                <td>${i[4]}</td>
+                                <td class="nama-matkul">${i[0]}</td>
+                                <td class="sks">${i[4]}</td>
                                 <td>${i[2]}-${i[3]}</td>
                             </tr>`
             } 
