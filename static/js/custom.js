@@ -132,7 +132,7 @@ $(document).ready(function() {
             total_sks += parseInt(value[4]);
         });
 
-        let hitung =   `<ul class="list-group">
+        let hitung =   `<ul class="rounded-3 list-group list-group-flush">
                             <li class="list-group-item">Jumlah Mata kuliah: <strong>${total_matkul}</strong></li>
                             <li class="list-group-item">Total SKS: <strong>${total_sks}</strong></li>
                         </ul>`;
