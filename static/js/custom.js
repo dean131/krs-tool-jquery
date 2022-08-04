@@ -18,7 +18,7 @@ $(document).ready(function() {
                         <tbody>`;
 
         if (data_base) {
-            $.each(data_base, function(index, value) {
+            $.each(data_base.reverse(), function(index, value) {
                 table +=    `<tr>
                                 <td>${index+1}</td>
                                 <td>${value[0]}</td>
