@@ -2,6 +2,7 @@
 $(document).ready(function() {
 
     let data_base = [];
+    let sesi2 = false;
 
     $.tampil = function() {
         let table = `<table class="table table-sm table-hover" id="myTable">
@@ -58,41 +59,69 @@ $(document).ready(function() {
     }
 
     $('#btn_submit').click(function() {
+        let data, data2;
+
         let nama_matkul = $('#nama_matkul').val();
         let hari = $('#hari').val();
         let jam_mulai = $('#jam_mulai').val();
         let jam_akhir = $('#jam_akhir').val();
         let jmlh_sks = $('#jmlh_sks').val();
-        let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
+        data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
         
-        if (!nama_matkul) {
+        if (sesi2) {
+            let nama_matkul2 = nama_matkul + ' (sesi 2)';
+            let hari2 = $('#hari2').val();
+            let jam_mulai2 = $('#jam_mulai2').val();
+            let jam_akhir2 = $('#jam_akhir2').val();
+            let jmlh_sks2 = data[4];
+
+            data2 = [nama_matkul2, hari2, jam_mulai2, jam_akhir2, jmlh_sks2];
+
+            if ($.cekField(data) && $.cekTabrakan(data)) {
+                if ($.cekField(data2) && $.cekTabrakan(data2)) {
+                    if ($.cekTabrakan2sesi(data, data2)) {
+                        data[4] /= 2;
+                        data2[4] /= 2;
+                        $.tambahData(data);
+                        $.tambahData(data2);
+                    }
+                }
+            }
+        } else {
+            if ($.cekField(data) && $.cekTabrakan(data)) {
+                $.tambahData(data);
+            }
+        }
+
+    });
+
+    $.cekField = function(data) {
+        if (!data[0]) {
             let title = `Bor!`;
             let message = `Isi dulu field nama MATKUL nya bor!`
             $.modalWarning(title, message);
-            return;
-        }
-        
-        if (!jam_mulai || !jam_akhir) {
+            return false;
+        } else if (!data[2] || !data[3]) {
             let title = `Bor!`;
             let message = `Isi dulu jam nya bor!`
             $.modalWarning(title, message);
-            return;
-        }
-        
-        if (!jmlh_sks) {
+            return false;
+        } else if (!data[4]) {
             let title = `Bor!`;
             let message = `Isi dulu field SKS nya bor!`
             $.modalWarning(title, message);
-            return;
-        }
-
-        if (isNaN(jmlh_sks)) {
+            return false;
+        } else if (isNaN(data[4])) {
             let title = `Bor!`;
             let message = `Kalo SKS harus pake angka bor!`
             $.modalWarning(title, message);
-            return;
+            return false;
+        } else {
+            return true;
         }
+    }
 
+    $.cekTabrakan = function(data) {
         let tabrakan;
         $.each(data_base, function(index, value) {
             if (data[1] == value[1]) {
@@ -107,17 +136,47 @@ $(document).ready(function() {
                 }
             }
         });
-
+    
         if (tabrakan) {
             let title = `Bor!`;
-            let message = `Jadwalnya trbrakan sama ${data_base[tabrakan][0]} bor!`
+            let message = `Jadwalnya tabrakan sama ${data_base[tabrakan][0]} bor!`
             $.modalWarning(title, message);
+            return false;
         } else {
-            data_base.push(data);
-            $.tampil();
-            $.resetForm();
+            return true;
         }
-    });
+    }
+
+    $.cekTabrakan2sesi = function(data, data2) {
+        let tabrakan;
+        if (data[1] == data2[1]) {
+            if (data[2] >= data2[2] && data[2] <= data2[3]) {
+                tabrakan = true;
+            } else if (data[3] >= data2[2] && data[3] <= data2[3]) {
+                tabrakan = true;
+            } else if (data2[2] >= data[2] && data2[2] <= data[3]) {
+                tabrakan = true;
+            } else if (data2[3] >= data[2] && data2[3] <= data[3]) {
+                tabrakan = true;
+            }
+        }
+    
+        if (tabrakan) {
+            let title = `Bor!`;
+            let message = `Sessi 1 sama sesi 2 tabrakan bor!`
+            $.modalWarning(title, message);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    $.tambahData = function(data) {
+        data_base.push(data);
+        $.tampil();
+        $.resetForm();
+    }
+    
 
     $.hapus = function(index) {
         data_base.splice(index, 1);
@@ -129,7 +188,7 @@ $(document).ready(function() {
         let total_sks = 0;
 
         $.each(data_base, function(index, value) {
-            total_sks += parseInt(value[4]);
+            total_sks += value[4];
         });
 
         let hitung =   `<ul class="rounded-3 list-group list-group-flush">
@@ -154,7 +213,7 @@ $(document).ready(function() {
         let hari = $('#modal_hari').val();
         let jam_mulai = $('#modal_jam_mulai').val();
         let jam_akhir = $('#modal_jam_akhir').val();
-        let jmlh_sks = $('#modal_jmlh_sks').val();
+        let jmlh_sks = parseInt($('#modal_jmlh_sks').val());
         let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
 
         let modal_index = $('#modal_index').val();
@@ -189,9 +248,11 @@ $(document).ready(function() {
     $.resetForm = function() {
         $('#nama_matkul').val('');
         $('#hari').prop('selectedIndex',0);
+        $('#sesi').prop('selectedIndex',0);
         $('#jam_mulai').val('');
         $('#jam_akhir').val('');
         $('#jmlh_sks').val('');
+        $.formWaktu();
     }
 
     $.modalWarning = function(title, message) {
@@ -424,7 +485,7 @@ $(document).ready(function() {
         let card_all = $.sortingDataBase();
         let pagePrint = `   <div class="container" id="pagePrint">`
         pagePrint += card_all;
-        pagePrint +=        `</div>`
+        pagePrint +=    `   </div>`
                             
         $('#divPrint').html(pagePrint);
         printJS({ 
@@ -433,6 +494,36 @@ $(document).ready(function() {
             targetStyles: ['*']
             // header: 'PrintJS - Form Element Selection' 
         });
+    }
+
+    $.formWaktu = function(sesi) {
+        if (sesi == '2') {
+            let waktuForm = `   <label class="form-label border-bottom mt-1" for="sesi2">Sesi 2</label>
+                                <div class="mb-3 col-lg-4" id="sesi2">
+                                    <label class="form-label" for="hari2">Hari</label>
+                                    <select class="form-select" id="hari2" aria-label="Default select example">
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jum'at">Jum'at</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label" for="jam_mulai2">Jam Mulai</label>
+                                    <input type="time" id="jam_mulai2" class="form-control">
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label" for="jam_akhir2">Jam Akhir</label>
+                                    <input type="time" id="jam_akhir2" class="form-control">
+                                </div>`;
+            $('#waktu').html(waktuForm);
+            sesi2 = true;
+        } else {
+            $('#waktu').html('');
+            sesi2 = false;
+        }
     }
 
     $.tampil();
