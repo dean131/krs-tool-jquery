@@ -2,7 +2,6 @@
 $(document).ready(function() {
 
     let data_base = [];
-    let sesi2 = false;
 
     $.tampil = function() {
         let table = `<table class="table table-sm table-hover" id="myTable">
@@ -22,18 +21,18 @@ $(document).ready(function() {
             $.each(data_base, function(index, value) {
                 table +=    `<tr>
                                 <td>${index+1}</td>
-                                <td>${value[0]}</td>
-                                <td>${value[4]}</td>
-                                <td>${value[1]}</td>
-                                <td>${value[2]}-${value[3]}</td>
+                                <td>${value.nama_matkul}</td>
+                                <td>${value.jmlh_sks}</td>
+                                <td>${value.hari}</td>
+                                <td>${value.jam_mulai}-${value.jam_akhir}</td>
                                 <td>
-                                    <a onclick="$.edit(${index})" href="#modalEdit" data-bs-toggle="modal" class="btn btn-outline-warning opacity-75">
+                                    <a onclick="$.edit(${value.id_matkul})" href="#modalEdit" data-bs-toggle="modal" class="btn btn-outline-warning opacity-75">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg>
                                     </a>
-                                    <a onclick="$.hapus(${index})" class="btn btn-outline-danger opacity-75">
+                                    <a onclick="$.hapus(${value.id_matkul})" class="btn btn-outline-danger opacity-75">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
                                         </svg>
@@ -60,58 +59,74 @@ $(document).ready(function() {
 
     $('#btn_submit').click(function() {
         let data, data2;
-
-        let nama_matkul = $('#nama_matkul').val();
-        let hari = $('#hari').val();
-        let jam_mulai = $('#jam_mulai').val();
-        let jam_akhir = $('#jam_akhir').val();
-        let jmlh_sks = $('#jmlh_sks').val();
-        data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
+        data = {
+            'id_matkul' : 0,
+            'nama_matkul' : $('#nama_matkul').val(), 
+            'hari' : $('#hari').val(), 
+            'jam_mulai' : $('#jam_mulai').val(), 
+            'jam_akhir' : $('#jam_akhir').val(), 
+            'jmlh_sks' : parseInt($('#jmlh_sks').val()),
+            'sesi2' : false
+        };
         
-        if (sesi2) {
-            let nama_matkul2 = nama_matkul + ' (sesi 2)';
-            let hari2 = $('#hari2').val();
-            let jam_mulai2 = $('#jam_mulai2').val();
-            let jam_akhir2 = $('#jam_akhir2').val();
-            let jmlh_sks2 = data[4];
+        if ($('#hari2').val()) {
+            data2 = {
+                'id_matkul' : 0,
+                'nama_matkul' : data.nama_matkul + ' (sesi 2)', 
+                'hari' : $('#hari2').val(), 
+                'jam_mulai' : $('#jam_mulai2').val(), 
+                'jam_akhir' : $('#jam_akhir2').val(), 
+                'jmlh_sks' : data.jmlh_sks,
+                'sesi2' : true
+            };
 
-            data2 = [nama_matkul2, hari2, jam_mulai2, jam_akhir2, jmlh_sks2];
-
-            if ($.cekField(data) && $.cekTabrakan(data)) {
-                if ($.cekField(data2) && $.cekTabrakan(data2)) {
+            if ($.cekField(data) && $.cekTabrakan(data_base, data)) {
+                if ($.cekField(data2) && $.cekTabrakan(data_base, data2)) {
                     if ($.cekTabrakan2sesi(data, data2)) {
-                        data[4] /= 2;
-                        data2[4] /= 2;
+                        data.jmlh_sks /= 2;
+                        data2.jmlh_sks = data.jmlh_sks;
+                        data.id_matkul = $.maxID();
+                        data2.id_matkul = data.id_matkul;
                         $.tambahData(data);
                         $.tambahData(data2);
                     }
                 }
             }
         } else {
-            if ($.cekField(data) && $.cekTabrakan(data)) {
+            if ($.cekField(data) && $.cekTabrakan(data_base, data)) {
+                data.id_matkul = $.maxID();
                 $.tambahData(data);
             }
         }
-
     });
 
+    $.maxID = function() {
+        let idies = [0];
+        if (data_base) {
+            $.each(data_base,function(index, value) {
+                idies.push(value.id_matkul);
+            });
+        }
+        return Math.max(...idies) + 1;
+    }
+
     $.cekField = function(data) {
-        if (!data[0]) {
+        if (!data.nama_matkul) {
             let title = `Bor!`;
             let message = `Isi dulu field nama MATKUL nya bor!`
             $.modalWarning(title, message);
             return false;
-        } else if (!data[2] || !data[3]) {
+        } else if (!data.jam_mulai || !data.jam_akhir) {
             let title = `Bor!`;
             let message = `Isi dulu jam nya bor!`
             $.modalWarning(title, message);
             return false;
-        } else if (!data[4]) {
+        } else if (!data.jmlh_sks) {
             let title = `Bor!`;
             let message = `Isi dulu field SKS nya bor!`
             $.modalWarning(title, message);
             return false;
-        } else if (isNaN(data[4])) {
+        } else if (isNaN(data.jmlh_sks)) {
             let title = `Bor!`;
             let message = `Kalo SKS harus pake angka bor!`
             $.modalWarning(title, message);
@@ -121,25 +136,25 @@ $(document).ready(function() {
         }
     }
 
-    $.cekTabrakan = function(data) {
+    $.cekTabrakan = function(arr, data) {
         let tabrakan;
-        $.each(data_base, function(index, value) {
-            if (data[1] == value[1]) {
-                if (data[2] >= value[2] && data[2] <= value[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (data[3] >= value[2] && data[3] <= value[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (value[2] >= data[2] && value[2] <= data[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (value[3] >= data[2] && value[3] <= data[3]) {
-                    tabrakan = index.toLocaleString();
+        $.each(arr, function(index, value) {
+            if (data.hari == value.hari) {
+                if (data.jam_mulai >= value.jam_mulai && data.jam_mulai <= value.jam_akhir) {
+                    tabrakan = index.toString();
+                } else if (data.jam_akhir >= value.jam_mulai && data.jam_akhir <= value.jam_akhir) {
+                    tabrakan = index.toString();
+                } else if (value.jam_mulai >= data.jam_mulai && value.jam_mulai <= data.jam_akhir) {
+                    tabrakan = index.toString();
+                } else if (value.jam_akhir >= data.jam_mulai && value.jam_akhir <= data.jam_akhir) {
+                    tabrakan = index.toString();
                 }
             }
         });
     
         if (tabrakan) {
             let title = `Bor!`;
-            let message = `Jadwalnya tabrakan sama ${data_base[tabrakan][0]} bor!`
+            let message = `Jadwalnya tabrakan sama ${arr[tabrakan].nama_matkul} bor!`
             $.modalWarning(title, message);
             return false;
         } else {
@@ -149,21 +164,21 @@ $(document).ready(function() {
 
     $.cekTabrakan2sesi = function(data, data2) {
         let tabrakan;
-        if (data[1] == data2[1]) {
-            if (data[2] >= data2[2] && data[2] <= data2[3]) {
+        if (data.hari == data2.hari) {
+            if (data.jam_mulai >= data2.jam_mulai && data.jam_mulai <= data2.jam_akhir) {
                 tabrakan = true;
-            } else if (data[3] >= data2[2] && data[3] <= data2[3]) {
+            } else if (data.jam_akhir >= data2.jam_mulai && data.jam_akhir <= data2.jam_akhir) {
                 tabrakan = true;
-            } else if (data2[2] >= data[2] && data2[2] <= data[3]) {
+            } else if (data2.jam_mulai >= data.jam_mulai && data2.jam_mulai <= data.jam_akhir) {
                 tabrakan = true;
-            } else if (data2[3] >= data[2] && data2[3] <= data[3]) {
+            } else if (data2.jam_akhir >= data.jam_mulai && data2.jam_akhir <= data.jam_akhir) {
                 tabrakan = true;
             }
         }
     
         if (tabrakan) {
             let title = `Bor!`;
-            let message = `Sessi 1 sama sesi 2 tabrakan bor!`
+            let message = `Sesi 1 sama sesi 2 tabrakan bor!`
             $.modalWarning(title, message);
             return false;
         } else {
@@ -177,9 +192,19 @@ $(document).ready(function() {
         $.resetForm();
     }
     
+    // $.removeByAttr = function(arr, attr, value){
+    //     let i = arr.length;
+    //     while(i--){
+    //         if( arr[i] && arr[i].hasOwnProperty(attr) && (arguments.length > 2 && arr[i][attr] === value ) ){ 
+    //             arr.splice(i,1);
+    //         }
+    //     }
+    //     return arr;
+    // }
 
-    $.hapus = function(index) {
-        data_base.splice(index, 1);
+    $.hapus = function(aydi) {
+        // $.removeByAttr(data_base, 'id_matkul', aydi);
+        data_base = data_base.filter(object => {return object.id_matkul != aydi});
         $.tampil();
     }
 
@@ -188,7 +213,7 @@ $(document).ready(function() {
         let total_sks = 0;
 
         $.each(data_base, function(index, value) {
-            total_sks += value[4];
+            total_sks += value.jmlh_sks;
         });
 
         let hitung =   `<ul class="rounded-3 list-group list-group-flush">
@@ -199,50 +224,103 @@ $(document).ready(function() {
         $('#hitungan').html(hitung);
     }
 
-    $.edit = function(index) {
-        $('#modal_nama_matkul').val(data_base[index][0]);
-        $('#modal_hari').val(data_base[index][1]);
-        $('#modal_jam_mulai').val(data_base[index][2]);
-        $('#modal_jam_akhir').val(data_base[index][3]);
-        $('#modal_jmlh_sks').val(data_base[index][4]);
-        $('#modal_index').val(index);
-    }
-
-    $('#modal_btn_simpan').click(function() {
-        let nama_matkul = $('#modal_nama_matkul').val();
-        let hari = $('#modal_hari').val();
-        let jam_mulai = $('#modal_jam_mulai').val();
-        let jam_akhir = $('#modal_jam_akhir').val();
-        let jmlh_sks = parseInt($('#modal_jmlh_sks').val());
-        let data = [nama_matkul, hari, jam_mulai, jam_akhir, jmlh_sks];
-
-        let modal_index = $('#modal_index').val();
-        
-        let tabrakan;
-        $.each(data_base, function(index, value) {
-            if (index.toLocaleString() == modal_index.toLocaleString()) {
-                return;
-            } else if (data[1] == value[1]) {
-                if (data[2] >= value[2] && data[2] <= value[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (data[3] >= value[2] && data[3] <= value[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (value[2] >= data[2] && value[2] <= data[3]) {
-                    tabrakan = index.toLocaleString();
-                } else if (value[3] >= data[2] && value[3] <= data[3]) {
-                    tabrakan = index.toLocaleString();
+    // $.findEditByAttr = function(arr, attr, aydi){
+    //     let arr_edit = [];
+    //     let i = arr.length;
+    //     while(i--){
+    //         if( arr[i] && arr[i].hasOwnProperty(attr) && (arguments.length > 2 && arr[i][attr] === aydi ) ){ 
+    //             arr_edit.push(data_base[i]);
+    //         }
+    //     }
+    //     return arr_edit;
+    // }
+    
+    $.editByAttr = function(arr, value, data,  data2){
+        if (data2) {
+            let i = arr.length;
+            while(i--){
+                if( arr[i] && arr[i].hasOwnProperty('id_matkul') && (arguments.length > 2 && arr[i]['id_matkul'] == value ) ){ 
+                    if (arr[i].sesi2 == true) {
+                        arr[i] = data2;
+                    } else {
+                        arr[i] = data;
+                    }
                 }
             }
-        });
-
-        if (tabrakan) {
-            let title = `Bor :v!`;
-            let message = `Jadwalnya trabrakan sama ${data_base[tabrakan][0]} bor!`
-            $.modalWarning(title, message);
+            return arr;
         } else {
-            data_base[modal_index] = data;
-            $.tampil();
+            let i = arr.length;
+            while(i--){
+                if( arr[i] && arr[i].hasOwnProperty('id_matkul') && (arguments.length > 2 && arr[i]['id_matkul'] == value ) ){ 
+                    arr[i] = data;
+                }
+            }
+            return arr;
+
         }
+    }
+
+    $.edit = function(aydi) {
+        // let arr_edit = $.findEditByAttr(data_base, 'id_matkul', aydi);
+        let arr_edit = data_base.filter(object => {return object.id_matkul == aydi});
+        $('#edit_nama_matkul').val(arr_edit[0].nama_matkul);
+        $('#edit_jmlh_sks').val(arr_edit[0].jmlh_sks);
+        $('#edit_hari').val(arr_edit[0].hari);
+        $('#edit_jam_mulai').val(arr_edit[0].jam_mulai);
+        $('#edit_jam_akhir').val(arr_edit[0].jam_akhir);
+
+        $('#edit_aydi').val(aydi);
+        
+        if (arr_edit.length == 2) {
+            $.editFormWaktu(2);
+            $('#edit_jmlh_sks').val(arr_edit[0].jmlh_sks + arr_edit[1].jmlh_sks);
+            $('#edit_hari2').val(arr_edit[1].hari);
+            $('#edit_jam_mulai2').val(arr_edit[1].jam_mulai);
+            $('#edit_jam_akhir2').val(arr_edit[1].jam_akhir);
+        } else {
+            $.editFormWaktu(1);
+        }
+    }
+
+    $('#edit_btn_simpan').click(function() {
+        let data, data2;
+        let edit_aydi = parseInt($('#edit_aydi').val());
+        data = {
+            'id_matkul' : edit_aydi,
+            'nama_matkul' : $('#edit_nama_matkul').val(), 
+            'hari' : $('#edit_hari').val(), 
+            'jam_mulai' : $('#edit_jam_mulai').val(), 
+            'jam_akhir' : $('#edit_jam_akhir').val(), 
+            'jmlh_sks' : parseInt($('#edit_jmlh_sks').val()),
+            'sesi2' : false
+        };
+
+        if ($('#edit_hari2').val()) {
+            data2 = {
+                'id_matkul' : edit_aydi,
+                'nama_matkul' : data.nama_matkul + ' (sesi 2)', 
+                'hari' : $('#edit_hari2').val(), 
+                'jam_mulai' : $('#edit_jam_mulai2').val(), 
+                'jam_akhir' : $('#edit_jam_akhir2').val(), 
+                'jmlh_sks' : data.jmlh_sks,
+                'sesi2' : true
+            };
+            data.jmlh_sks /= 2;
+            data2.jmlh_sks = data.jmlh_sks;
+            if (
+                $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data)
+                && $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data2)
+                ) {
+                $.editByAttr(data_base, edit_aydi, data, data2);
+            }
+        } else {
+            if (
+                $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data)
+                ) {
+                $.editByAttr(data_base, edit_aydi, data, data2);
+            }
+        }
+        $.tampil();
     });
 
     $.resetForm = function() {
@@ -265,10 +343,10 @@ $(document).ready(function() {
 
     $.sortingDataBase = function() {
         function compare( a, b ) {
-            if ( a[2] < b[2] ){
+            if ( a.jam_akhir < b.jam_akhir ){
                 return -1;
             }
-            if ( a[2] > b[2] ){
+            if ( a.jam_akhir > b.jam_akhir ){
                 return 1;
             }
             return 0;
@@ -282,7 +360,7 @@ $(document).ready(function() {
         let list_sabtu = []
         
         for (const i of data_base) {
-            switch (i[1].toLowerCase()) {
+            switch (i.hari.toLowerCase()) {
                 case 'senin':
                     list_senin.push(i);
                     if (list_senin) {
@@ -331,9 +409,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_senin) {
             card_senin += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -357,9 +435,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_selasa) {
             card_selasa += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -383,9 +461,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_rabu) {
             card_rabu += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -409,9 +487,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_kamis) {
             card_kamis += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -435,9 +513,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_jumat) {
             card_jumat += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -461,9 +539,9 @@ $(document).ready(function() {
                                         <tbody>`
         for (const i of list_sabtu) {
             card_sabtu += ` <tr>
-                                <td class="nama-matkul">${i[0]}</td>
-                                <td class="sks">${i[4]}</td>
-                                <td>${i[2]}-${i[3]}</td>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
                             </tr>`
             } 
 
@@ -498,8 +576,8 @@ $(document).ready(function() {
 
     $.formWaktu = function(sesi) {
         if (sesi == '2') {
-            let waktuForm = `   <label class="form-label border-bottom mt-1" for="sesi2">Sesi 2</label>
-                                <div class="mb-3 col-lg-4" id="sesi2">
+            let waktuForm = `   <label class="form-label border-bottom mt-1" for="section_sesi2">Sesi 2</label>
+                                <div class="mb-3 col-lg-4" id="section_sesi2">
                                     <label class="form-label" for="hari2">Hari</label>
                                     <select class="form-select" id="hari2" aria-label="Default select example">
                                         <option value="Senin">Senin</option>
@@ -519,10 +597,37 @@ $(document).ready(function() {
                                     <input type="time" id="jam_akhir2" class="form-control">
                                 </div>`;
             $('#waktu').html(waktuForm);
-            sesi2 = true;
         } else {
             $('#waktu').html('');
-            sesi2 = false;
+        }
+    }
+
+    $.editFormWaktu = function(sesi) {
+        if (sesi == '2') {
+            // $('#edit_sesi').val('2'); // fitur nonaktif
+            let waktuForm = `   <label class="form-label border-bottom mt-1" for="section_edit_sesi2">Sesi 2</label>
+                                <div class="mb-3 col-lg-4" id="section_edit_sesi2">
+                                    <label class="form-label" for="edit_hari2">Hari</label>
+                                    <select class="form-select" id="edit_hari2" aria-label="Default select example">
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jum'at">Jum'at</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label" for="edit_jam_mulai2">Jam Mulai</label>
+                                    <input type="time" id="edit_jam_mulai2" class="form-control">
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="form-label" for="edit_jam_akhir2">Jam Akhir</label>
+                                    <input type="time" id="edit_jam_akhir2" class="form-control">
+                                </div>`;
+            $('#modal_edit_jam').html(waktuForm);
+        } else {
+            $('#modal_edit_jam').html('');
         }
     }
 
