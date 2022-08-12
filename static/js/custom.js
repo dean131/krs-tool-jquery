@@ -80,16 +80,14 @@ $(document).ready(function() {
                 'sesi2' : true
             };
 
-            if ($.cekField(data) && $.cekTabrakan(data_base, data)) {
-                if ($.cekField(data2) && $.cekTabrakan(data_base, data2)) {
-                    if ($.cekTabrakan2sesi(data, data2)) {
-                        data.jmlh_sks /= 2;
-                        data2.jmlh_sks = data.jmlh_sks;
-                        data.id_matkul = $.maxID();
-                        data2.id_matkul = data.id_matkul;
-                        $.tambahData(data);
-                        $.tambahData(data2);
-                    }
+            if ($.cekField(data) && $.cekField(data2) && $.cekTabrakan(data_base, data) && $.cekTabrakan(data_base, data2)) {
+                if ($.cekTabrakan2sesi(data, data2)) {
+                    data.jmlh_sks /= 2;
+                    data2.jmlh_sks = data.jmlh_sks;
+                    data.id_matkul = $.maxID();
+                    data2.id_matkul = data.id_matkul;
+                    $.tambahData(data);
+                    $.tambahData(data2);
                 }
             }
         } else {
@@ -112,24 +110,13 @@ $(document).ready(function() {
 
     $.cekField = function(data) {
         if (!data.nama_matkul) {
-            let title = `Bor!`;
-            let message = `Isi dulu field nama MATKUL nya bor!`
-            $.modalWarning(title, message);
+            $.modalWarning('Bor!', 'Isi field nama MATKUL nya bor!');
+            return false;
+        } else if (isNaN(data.jmlh_sks) || !data.jmlh_sks) {
+            $.modalWarning('Bor!', 'Isi field SKS nya pake angka bor!');
             return false;
         } else if (!data.jam_mulai || !data.jam_akhir) {
-            let title = `Bor!`;
-            let message = `Isi dulu jam nya bor!`
-            $.modalWarning(title, message);
-            return false;
-        } else if (!data.jmlh_sks) {
-            let title = `Bor!`;
-            let message = `Isi dulu field SKS nya bor!`
-            $.modalWarning(title, message);
-            return false;
-        } else if (isNaN(data.jmlh_sks)) {
-            let title = `Bor!`;
-            let message = `Kalo SKS harus pake angka bor!`
-            $.modalWarning(title, message);
+            $.modalWarning('Bor!', 'Isi dulu jam nya bor!');
             return false;
         } else {
             return true;
@@ -153,9 +140,7 @@ $(document).ready(function() {
         });
     
         if (tabrakan) {
-            let title = `Bor!`;
-            let message = `Jadwalnya tabrakan sama ${arr[tabrakan].nama_matkul} bor!`
-            $.modalWarning(title, message);
+            $.modalWarning('Bor!', `Jadwalnya tabrakan sama ${arr[tabrakan].nama_matkul} bor!`);
             return false;
         } else {
             return true;
@@ -177,9 +162,7 @@ $(document).ready(function() {
         }
     
         if (tabrakan) {
-            let title = `Bor!`;
-            let message = `Sesi 1 sama sesi 2 tabrakan bor!`
-            $.modalWarning(title, message);
+            $.modalWarning('Bor!', 'Sesi 1 sama sesi 2 tabrakan bor!');
             return false;
         } else {
             return true;
@@ -191,19 +174,8 @@ $(document).ready(function() {
         $.tampil();
         $.resetForm();
     }
-    
-    // $.removeByAttr = function(arr, attr, value){
-    //     let i = arr.length;
-    //     while(i--){
-    //         if( arr[i] && arr[i].hasOwnProperty(attr) && (arguments.length > 2 && arr[i][attr] === value ) ){ 
-    //             arr.splice(i,1);
-    //         }
-    //     }
-    //     return arr;
-    // }
 
     $.hapus = function(aydi) {
-        // $.removeByAttr(data_base, 'id_matkul', aydi);
         data_base = data_base.filter(object => {return object.id_matkul != aydi});
         $.tampil();
     }
@@ -216,24 +188,13 @@ $(document).ready(function() {
             total_sks += value.jmlh_sks;
         });
 
-        let hitung =   `<ul class="rounded-3 list-group list-group-flush">
+        $('#hitungan').html(
+            /*html*/`   <ul class="rounded-3 list-group list-group-flush">
                             <li class="list-group-item">Jumlah Mata kuliah: <strong>${total_matkul}</strong></li>
                             <li class="list-group-item">Total SKS: <strong>${total_sks}</strong></li>
-                        </ul>`;
-
-        $('#hitungan').html(hitung);
+                        </ul>`
+        );
     }
-
-    // $.findEditByAttr = function(arr, attr, aydi){
-    //     let arr_edit = [];
-    //     let i = arr.length;
-    //     while(i--){
-    //         if( arr[i] && arr[i].hasOwnProperty(attr) && (arguments.length > 2 && arr[i][attr] === aydi ) ){ 
-    //             arr_edit.push(data_base[i]);
-    //         }
-    //     }
-    //     return arr_edit;
-    // }
     
     $.editByAttr = function(arr, value, data,  data2){
         if (data2) {
@@ -261,7 +222,6 @@ $(document).ready(function() {
     }
 
     $.edit = function(aydi) {
-        // let arr_edit = $.findEditByAttr(data_base, 'id_matkul', aydi);
         let arr_edit = data_base.filter(object => {return object.id_matkul == aydi});
         $('#edit_nama_matkul').val(arr_edit[0].nama_matkul);
         $('#edit_jmlh_sks').val(arr_edit[0].jmlh_sks);
@@ -285,6 +245,7 @@ $(document).ready(function() {
     $('#edit_btn_simpan').click(function() {
         let data, data2;
         let edit_aydi = parseInt($('#edit_aydi').val());
+        let db_cek = data_base.filter(object => {return object.id_matkul != edit_aydi});
         data = {
             'id_matkul' : edit_aydi,
             'nama_matkul' : $('#edit_nama_matkul').val(), 
@@ -307,16 +268,11 @@ $(document).ready(function() {
             };
             data.jmlh_sks /= 2;
             data2.jmlh_sks = data.jmlh_sks;
-            if (
-                $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data)
-                && $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data2)
-                ) {
+            if ($.cekTabrakan(db_cek, data) && $.cekTabrakan(db_cek, data2) && $.cekField(data) && $.cekField(data2)) {
                 $.editByAttr(data_base, edit_aydi, data, data2);
             }
         } else {
-            if (
-                $.cekTabrakan(data_base.filter(object => {return object.id_matkul != edit_aydi}), data)
-                ) {
+            if ($.cekTabrakan(db_cek, data) && $.cekField(data)) {
                 $.editByAttr(data_base, edit_aydi, data, data2);
             }
         }
@@ -334,10 +290,8 @@ $(document).ready(function() {
     }
 
     $.modalWarning = function(title, message) {
-        let this_title = `<h5>${title}</h5>`;
-        let this_message = `<p>${message}</p>`;
-        $('#modal-warning-title').html(this_title);
-        $('#modal-warning-message').html(this_message);
+        $('#modal-warning-title').html(`<h5>${title}</h5>`);
+        $('#modal-warning-message').html(`<p>${message}</p>`);
         $('#modal-warning').modal('show');
     }
 
@@ -352,12 +306,12 @@ $(document).ready(function() {
             return 0;
         }
         
-        let list_senin = []
-        let list_selasa = []
-        let list_rabu = []
-        let list_kamis = []
-        let list_jumat = []
-        let list_sabtu = []
+        let list_senin = [];
+        let list_selasa = [];
+        let list_rabu = [];
+        let list_kamis = [];
+        let list_jumat = [];
+        let list_sabtu = [];
         
         for (const i of data_base) {
             switch (i.hari.toLowerCase()) {
@@ -400,158 +354,158 @@ $(document).ready(function() {
             }
         }
         
-        let card_senin = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Senin
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_senin = /*html*/`  <div class="day-box">
+                                        <div class="day-box-header">
+                                            Senin
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_senin) {
-            card_senin += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_senin += /*html*/` <tr>
+                                        <td class="nama-matkul">${i.nama_matkul}</td>
+                                        <td class="sks">${i.jmlh_sks}</td>
+                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                    </tr>`
             } 
 
         if (list_senin.length == 0) {
-            card_senin += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_senin += /*html*/` <tr>
+                                        <td>Tidak ada jadwal</td>
+                                    </tr>`
         }
 
-        card_senin +=`          </tbody>
+        card_senin += /*html*/` </tbody>
                             </table>
                         </div>
                     </div>`
         
-        let card_selasa = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Selasa
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_selasa = /*html*/` <div class="day-box">
+                                        <div class="day-box-header">
+                                            Selasa
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_selasa) {
-            card_selasa += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_selasa += /*html*/`    <tr>
+                                            <td class="nama-matkul">${i.nama_matkul}</td>
+                                            <td class="sks">${i.jmlh_sks}</td>
+                                            <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                        </tr>`
             } 
 
         if (list_selasa.length == 0) {
-            card_selasa += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_selasa += /*html*/`    <tr>
+                                            <td>Tidak ada jadwal</td>
+                                        </tr>`
         }
 
-        card_selasa +=`         </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_selasa += /*html*/`    </tbody>
+                                </table>
+                            </div>
+                        </div>`
         
-        let card_rabu = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Rabu
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_rabu = /*html*/`   <div class="day-box">
+                                        <div class="day-box-header">
+                                            Rabu
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_rabu) {
-            card_rabu += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_rabu += /*html*/`  <tr>
+                                        <td class="nama-matkul">${i.nama_matkul}</td>
+                                        <td class="sks">${i.jmlh_sks}</td>
+                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                    </tr>`
             } 
 
         if (list_rabu.length == 0) {
-            card_rabu += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_rabu += /*html*/`  <tr>
+                                        <td>Tidak ada jadwal</td>
+                                    </tr>`
         }
 
-        card_rabu +=`           </tbody>
+        card_rabu += /*html*/`  </tbody>
                             </table>
                         </div>
                     </div>`
         
-        let card_kamis = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Kamis
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_kamis = /*html*/`  <div class="day-box">
+                                        <div class="day-box-header">
+                                            Kamis
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_kamis) {
-            card_kamis += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_kamis += /*html*/` <tr>
+                                        <td class="nama-matkul">${i.nama_matkul}</td>
+                                        <td class="sks">${i.jmlh_sks}</td>
+                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                    </tr>`
             } 
 
         if (list_kamis.length == 0) {
-            card_kamis += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_kamis += /*html*/` <tr>
+                                        <td>Tidak ada jadwal</td>
+                                    </tr>`
         }
 
-        card_kamis +=`          </tbody>
+        card_kamis += /*html*/` </tbody>
                             </table>
                         </div>
                     </div>`
         
-        let card_jumat = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Jum'at
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_jumat = /*html*/`  <div class="day-box">
+                                        <div class="day-box-header">
+                                            Jum'at
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_jumat) {
-            card_jumat += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_jumat += /*html*/` <tr>
+                                        <td class="nama-matkul">${i.nama_matkul}</td>
+                                        <td class="sks">${i.jmlh_sks}</td>
+                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                    </tr>`
             } 
 
         if (list_jumat.length == 0) {
-            card_jumat += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_jumat += /*html*/` <tr>
+                                        <td>Tidak ada jadwal</td>
+                                    </tr>`
         }
 
-        card_jumat +=`          </tbody>
+        card_jumat += /*html*/` </tbody>
                             </table>
                         </div>
                     </div>`
         
-        let card_sabtu = `  <div class="day-box">
-                                <div class="day-box-header">
-                                    Sabtu
-                                </div>
-                                <div class="day-box-body">
-                                    <table class="day-box-table">
-                                        <tbody>`
+        let card_sabtu = /*html*/`  <div class="day-box">
+                                        <div class="day-box-header">
+                                            Sabtu
+                                        </div>
+                                        <div class="day-box-body">
+                                            <table class="day-box-table">
+                                                <tbody>`
         for (const i of list_sabtu) {
-            card_sabtu += ` <tr>
-                                <td class="nama-matkul">${i.nama_matkul}</td>
-                                <td class="sks">${i.jmlh_sks}</td>
-                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                            </tr>`
+            card_sabtu += /*html*/` <tr>
+                                        <td class="nama-matkul">${i.nama_matkul}</td>
+                                        <td class="sks">${i.jmlh_sks}</td>
+                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                                    </tr>`
             } 
 
         if (list_sabtu.length == 0) {
-            card_sabtu += ` <tr>
-                                <td>Tidak ada jadwal</td>
-                            </tr>`
+            card_sabtu += /*html*/` <tr>
+                                        <td>Tidak ada jadwal</td>
+                                    </tr>`
         }
 
-        card_sabtu +=`          </tbody>
+        card_sabtu += /*html*/` </tbody>
                             </table>
                         </div>
                     </div>`
@@ -561,9 +515,9 @@ $(document).ready(function() {
 
     $.myPrint = function() {
         let card_all = $.sortingDataBase();
-        let pagePrint = `   <div class="container" id="pagePrint">`
+        let pagePrint = /*html*/`<div class="container" id="pagePrint">`
         pagePrint += card_all;
-        pagePrint +=    `   </div>`
+        pagePrint += /*html*/`</div>`
                             
         $('#divPrint').html(pagePrint);
         printJS({ 
@@ -576,27 +530,28 @@ $(document).ready(function() {
 
     $.formWaktu = function(sesi) {
         if (sesi == '2') {
-            let waktuForm = `   <label class="form-label border-bottom mt-1" for="section_sesi2">Sesi 2</label>
-                                <div class="mb-3 col-lg-4" id="section_sesi2">
-                                    <label class="form-label" for="hari2">Hari</label>
-                                    <select class="form-select" id="hari2" aria-label="Default select example">
-                                        <option value="Senin">Senin</option>
-                                        <option value="Selasa">Selasa</option>
-                                        <option value="Rabu">Rabu</option>
-                                        <option value="Kamis">Kamis</option>
-                                        <option value="Jum'at">Jum'at</option>
-                                        <option value="Sabtu">Sabtu</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label class="form-label" for="jam_mulai2">Jam Mulai</label>
-                                    <input type="time" id="jam_mulai2" class="form-control">
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label class="form-label" for="jam_akhir2">Jam Akhir</label>
-                                    <input type="time" id="jam_akhir2" class="form-control">
-                                </div>`;
-            $('#waktu').html(waktuForm);
+            $('#waktu').html(
+                /*html*/`   <label class="form-label border-bottom mt-1" for="section_sesi2">Sesi 2</label>
+                            <div class="mb-3 col-lg-4" id="section_sesi2">
+                            <label class="form-label" for="hari2">Hari</label>
+                            <select class="form-select" id="hari2" aria-label="Default select example">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jum'at">Jum'at</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label class="form-label" for="jam_mulai2">Jam Mulai</label>
+                            <input type="time" id="jam_mulai2" class="form-control">
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label class="form-label" for="jam_akhir2">Jam Akhir</label>
+                            <input type="time" id="jam_akhir2" class="form-control">
+                        </div>`
+            );
         } else {
             $('#waktu').html('');
         }
@@ -605,27 +560,28 @@ $(document).ready(function() {
     $.editFormWaktu = function(sesi) {
         if (sesi == '2') {
             // $('#edit_sesi').val('2'); // fitur nonaktif
-            let waktuForm = `   <label class="form-label border-bottom mt-1" for="section_edit_sesi2">Sesi 2</label>
-                                <div class="mb-3 col-lg-4" id="section_edit_sesi2">
-                                    <label class="form-label" for="edit_hari2">Hari</label>
-                                    <select class="form-select" id="edit_hari2" aria-label="Default select example">
-                                        <option value="Senin">Senin</option>
-                                        <option value="Selasa">Selasa</option>
-                                        <option value="Rabu">Rabu</option>
-                                        <option value="Kamis">Kamis</option>
-                                        <option value="Jum'at">Jum'at</option>
-                                        <option value="Sabtu">Sabtu</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label class="form-label" for="edit_jam_mulai2">Jam Mulai</label>
-                                    <input type="time" id="edit_jam_mulai2" class="form-control">
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label class="form-label" for="edit_jam_akhir2">Jam Akhir</label>
-                                    <input type="time" id="edit_jam_akhir2" class="form-control">
-                                </div>`;
-            $('#modal_edit_jam').html(waktuForm);
+            $('#modal_edit_jam').html(
+                /*html*/`   <label class="form-label border-bottom mt-1" for="section_edit_sesi2">Sesi 2</label>
+                            <div class="mb-3 col-lg-4" id="section_edit_sesi2">
+                            <label class="form-label" for="edit_hari2">Hari</label>
+                            <select class="form-select" id="edit_hari2" aria-label="Default select example">
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jum'at">Jum'at</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label class="form-label" for="edit_jam_mulai2">Jam Mulai</label>
+                            <input type="time" id="edit_jam_mulai2" class="form-control">
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label class="form-label" for="edit_jam_akhir2">Jam Akhir</label>
+                            <input type="time" id="edit_jam_akhir2" class="form-control">
+                        </div>`
+            );
         } else {
             $('#modal_edit_jam').html('');
         }
