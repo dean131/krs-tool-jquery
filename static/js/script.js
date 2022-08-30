@@ -353,167 +353,104 @@ $(document).ready(function() {
                     continue;
             }
         }
+
+        const template_card_head = function(hari) {
+            return  /*html*/`   <div class="day-box">
+                                    <div class="day-box-header">
+                                        ${hari}
+                                    </div>
+                                    <div class="day-box-body">
+                                        <table class="day-box-table">
+                                            <tbody>`
+        }
+
+        const template_card_body = function(i) {
+            return  /*html*/` <tr>
+                                <td class="nama-matkul">${i.nama_matkul}</td>
+                                <td class="sks">${i.jmlh_sks}</td>
+                                <td>${i.jam_mulai}-${i.jam_akhir}</td>
+                            </tr>`
+        }
+
+        const template_card_foot = /*html*/` </tbody>
+                                        </table>
+                                    </div>
+                                </div>`
         
-        let card_senin = /*html*/`  <div class="day-box">
-                                        <div class="day-box-header">
-                                            Senin
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        const card_kosong = /*html*/`    <tr>
+                                            <td>-</td>
+                                        </tr>`
+        
+        let card_senin = template_card_head('Senin');
         for (const i of list_senin) {
-            card_senin += /*html*/` <tr>
-                                        <td class="nama-matkul">${i.nama_matkul}</td>
-                                        <td class="sks">${i.jmlh_sks}</td>
-                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                    </tr>`
+            card_senin += template_card_body(i);
             } 
 
         if (list_senin.length == 0) {
-            card_senin += /*html*/` <tr>
-                                        <td>Tidak ada jadwal</td>
-                                    </tr>`
+            card_senin += card_kosong;
         }
 
-        card_senin += /*html*/` </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_senin += template_card_foot;
         
-        let card_selasa = /*html*/` <div class="day-box">
-                                        <div class="day-box-header">
-                                            Selasa
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        let card_selasa = template_card_head('Selasa');
         for (const i of list_selasa) {
-            card_selasa += /*html*/`    <tr>
-                                            <td class="nama-matkul">${i.nama_matkul}</td>
-                                            <td class="sks">${i.jmlh_sks}</td>
-                                            <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                        </tr>`
+            card_selasa += template_card_body(i);
             } 
 
         if (list_selasa.length == 0) {
-            card_selasa += /*html*/`    <tr>
-                                            <td>Tidak ada jadwal</td>
-                                        </tr>`
+            card_selasa += card_kosong;
         }
 
-        card_selasa += /*html*/`    </tbody>
-                                </table>
-                            </div>
-                        </div>`
+        card_selasa += template_card_foot;
         
-        let card_rabu = /*html*/`   <div class="day-box">
-                                        <div class="day-box-header">
-                                            Rabu
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        let card_rabu = template_card_head('Rabu');
         for (const i of list_rabu) {
-            card_rabu += /*html*/`  <tr>
-                                        <td class="nama-matkul">${i.nama_matkul}</td>
-                                        <td class="sks">${i.jmlh_sks}</td>
-                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                    </tr>`
+            card_rabu += template_card_body(i);
             } 
 
         if (list_rabu.length == 0) {
-            card_rabu += /*html*/`  <tr>
-                                        <td>Tidak ada jadwal</td>
-                                    </tr>`
+            card_rabu += card_kosong;
         }
 
-        card_rabu += /*html*/`  </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_rabu += template_card_foot;
         
-        let card_kamis = /*html*/`  <div class="day-box">
-                                        <div class="day-box-header">
-                                            Kamis
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        let card_kamis = template_card_head('Kamis');
         for (const i of list_kamis) {
-            card_kamis += /*html*/` <tr>
-                                        <td class="nama-matkul">${i.nama_matkul}</td>
-                                        <td class="sks">${i.jmlh_sks}</td>
-                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                    </tr>`
+            card_kamis += template_card_body(i);
             } 
 
         if (list_kamis.length == 0) {
-            card_kamis += /*html*/` <tr>
-                                        <td>Tidak ada jadwal</td>
-                                    </tr>`
+            card_kamis += card_kosong;
         }
 
-        card_kamis += /*html*/` </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_kamis += template_card_foot;
         
-        let card_jumat = /*html*/`  <div class="day-box">
-                                        <div class="day-box-header">
-                                            Jum'at
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        let card_jumat = template_card_head('Jum\'at');
         for (const i of list_jumat) {
-            card_jumat += /*html*/` <tr>
-                                        <td class="nama-matkul">${i.nama_matkul}</td>
-                                        <td class="sks">${i.jmlh_sks}</td>
-                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                    </tr>`
+            card_jumat += template_card_body(i);
             } 
 
         if (list_jumat.length == 0) {
-            card_jumat += /*html*/` <tr>
-                                        <td>Tidak ada jadwal</td>
-                                    </tr>`
+            card_jumat += card_kosong;
         }
 
-        card_jumat += /*html*/` </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_jumat += template_card_foot;
         
-        let card_sabtu = /*html*/`  <div class="day-box">
-                                        <div class="day-box-header">
-                                            Sabtu
-                                        </div>
-                                        <div class="day-box-body">
-                                            <table class="day-box-table">
-                                                <tbody>`
+        let card_sabtu = template_card_head('Sabtu');
         for (const i of list_sabtu) {
-            card_sabtu += /*html*/` <tr>
-                                        <td class="nama-matkul">${i.nama_matkul}</td>
-                                        <td class="sks">${i.jmlh_sks}</td>
-                                        <td>${i.jam_mulai}-${i.jam_akhir}</td>
-                                    </tr>`
+            card_sabtu += template_card_body(i);
             } 
 
         if (list_sabtu.length == 0) {
-            card_sabtu += /*html*/` <tr>
-                                        <td>Tidak ada jadwal</td>
-                                    </tr>`
+            card_sabtu += card_kosong;
         }
 
-        card_sabtu += /*html*/` </tbody>
-                            </table>
-                        </div>
-                    </div>`
+        card_sabtu += template_card_foot;
 
         return card_senin + card_selasa + card_rabu + card_kamis + card_jumat + card_sabtu;
     }
 
-    $.myPrint = function() {
+    $('#btnPrint').click(function() {
         let card_all = $.sortingDataBase();
         let pagePrint = /*html*/`<div class="container" id="pagePrint">`
         pagePrint += card_all;
@@ -526,7 +463,7 @@ $(document).ready(function() {
             targetStyles: ['*']
             // header: 'PrintJS - Form Element Selection' 
         });
-    }
+    });
 
     $.formWaktu = function(sesi) {
         if (sesi == '2') {
