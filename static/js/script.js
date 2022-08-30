@@ -170,7 +170,7 @@ $(document).ready(function() {
     }
 
     $.tambahData = function(data) {
-        data_base.push(data);
+        data_base.unshift(data);
         $.tampil();
         $.resetForm();
     }
