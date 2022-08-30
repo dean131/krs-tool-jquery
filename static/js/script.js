@@ -86,8 +86,8 @@ $(document).ready(function() {
                     data2.jmlh_sks = data.jmlh_sks;
                     data.id_matkul = $.maxID();
                     data2.id_matkul = data.id_matkul;
-                    $.tambahData(data);
                     $.tambahData(data2);
+                    $.tambahData(data);
                 }
             }
         } else {
