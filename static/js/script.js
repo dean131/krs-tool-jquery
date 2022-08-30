@@ -256,10 +256,10 @@ $(document).ready(function() {
     }
 
     $('#edit_btn_simpan').click(function() {
-        let lessson, lessson2;
+        let lesson, lesson2;
         let edit_aydi = parseInt($('#edit_aydi').val());
         let db_cek = data_base.filter(lesson => {return lesson.id != edit_aydi});
-        lessson = {
+        lesson = {
             'id' : edit_aydi,
             'name' : $('#edit_nama_matkul').val(), 
             'day' : $('#edit_hari').val(), 
@@ -270,23 +270,26 @@ $(document).ready(function() {
         };
 
         if ($('#edit_hari2').val()) {
-            lessson2 = {
+            lesson2 = {
                 'id' : edit_aydi,
-                'name' : lessson.name + ' (sesi 2)', 
+                'name' : lesson.name + ' (sesi 2)', 
                 'day' : $('#edit_hari2').val(), 
                 'startTime' : $('#edit_jam_mulai2').val(), 
                 'finishTime' : $('#edit_jam_akhir2').val(), 
-                'credits' : lessson.credits,
+                'credits' : lesson.credits,
                 'hasSessionTwo' : true
             };
-            lessson.credits /= 2;
-            lessson2.credits = lessson.credits;
-            if ($.clashCheck(db_cek, lessson) && $.clashCheck(db_cek, lessson2) && $.fieldCheck(lessson) && $.fieldCheck(lessson2)) {
-                $.editLessonByAttr(data_base, edit_aydi, lessson, lessson2);
+            lesson.credits /= 2;
+            lesson2.credits = lesson.credits;
+
+            const isClash = $.clashCheck(db_cek, lesson) && $.clashCheck(db_cek, lesson2) && $.clashCheckTwoSession(lesson, lesson2);
+            const isFilled = $.fieldCheck(lesson) && $.fieldCheck(lesson2);
+            if (isClash && isFilled) {
+                $.editLessonByAttr(data_base, edit_aydi, lesson, lesson2);
             }
         } else {
-            if ($.clashCheck(db_cek, lessson) && $.fieldCheck(lessson)) {
-                $.editLessonByAttr(data_base, edit_aydi, lessson, lessson2);
+            if ($.clashCheck(db_cek, lesson) && $.fieldCheck(lesson)) {
+                $.editLessonByAttr(data_base, edit_aydi, lesson, lesson2);
             }
         }
         $.showTable();
