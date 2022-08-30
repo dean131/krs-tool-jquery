@@ -327,7 +327,7 @@ $(document).ready(function() {
         let list_sabtu = [];
         
         for (const i of data_base) {
-            switch (i.hari.toLowerCase()) {
+            switch (i.day.toLowerCase()) {
                 case 'senin':
                     list_senin.push(i);
                     if (list_senin) {
