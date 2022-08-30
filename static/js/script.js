@@ -372,14 +372,9 @@ $(document).ready(function() {
                             </tr>`
         }
 
-        const template_card_foot = /*html*/` </tbody>
-                                        </table>
-                                    </div>
-                                </div>`
+        const template_card_foot = /*html*/`</tbody></table></div></div>`
         
-        const card_kosong = /*html*/`    <tr>
-                                            <td>-</td>
-                                        </tr>`
+        const card_kosong = /*html*/`<tr><td>-</td></tr>`
         
         let card_senin = template_card_head('Senin');
         for (const i of list_senin) {
