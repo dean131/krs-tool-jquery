@@ -154,7 +154,7 @@ $(document).ready(function() {
         });
     
         if (clashIndex) {
-            $.modalWarning('Bor!', `Jadwalnya tabrakan sama ${arr[clashIndex].name} bor!`);
+            $.modalWarning('Bor!', `Jadwalnya bentrok sama ${arr[clashIndex].name} bor!`);
             return false;
         } else {
             return true;
@@ -163,20 +163,20 @@ $(document).ready(function() {
 
     $.clashCheckTwoSession = function(lesson, lesson2) {
         let clash;
-        if (lesson.hari == lesson2.hari) {
-            if (lesson.jam_mulai >= lesson2.jam_mulai && lesson.jam_mulai <= lesson2.jam_akhir) {
+        if (lesson.day == lesson2.day) {
+            if (lesson.startTime >= lesson2.startTime && lesson.startTime <= lesson2.finishTime) {
                 clash = true;
-            } else if (lesson.jam_akhir >= lesson2.jam_mulai && lesson.jam_akhir <= lesson2.jam_akhir) {
+            } else if (lesson.finishTime >= lesson2.startTime && lesson.finishTime <= lesson2.finishTime) {
                 clash = true;
-            } else if (lesson2.jam_mulai >= lesson.jam_mulai && lesson2.jam_mulai <= lesson.jam_akhir) {
+            } else if (lesson2.startTime >= lesson.startTime && lesson2.startTime <= lesson.finishTime) {
                 clash = true;
-            } else if (lesson2.jam_akhir >= lesson.jam_mulai && lesson2.jam_akhir <= lesson.jam_akhir) {
+            } else if (lesson2.finishTime >= lesson.startTime && lesson2.finishTime <= lesson.finishTime) {
                 clash = true;
             }
         }
     
         if (clash) {
-            $.modalWarning('Bor!', 'Sesi 1 sama sesi 2 tabrakan bor!');
+            $.modalWarning('Bor!', 'Sesi 1 sama sesi 2 bentrok bor!');
             return false;
         } else {
             return true;
